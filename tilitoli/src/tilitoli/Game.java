@@ -8,6 +8,7 @@ import java.util.Vector;
  * @author Burian Sándor
  */
 public class Game {
+    private int nrOfMove = 0;
     private Vector game;
     private int blankIndex = 8;
     
@@ -115,9 +116,25 @@ public class Game {
     public Vector getGame() {
         return game;
     }
+
+    /**
+     * Get nr of moves in this game
+     * @return int
+     */
+    public int getNrOfMove() {
+        return nrOfMove;
+    }
+
+    /**
+     * Set the current state of number of moves in this game
+     * @param nrOfMove int
+     */
+    public void setNrOfMove(int nrOfMove) {
+        this.nrOfMove = nrOfMove;
+    }
     
     /**
-     * Test if The game is completed.
+     * Test if the game is completed.
      * The game is completed when every value is in growing order.
      * @return a boolean value true if completed false if isn't
      */
@@ -135,7 +152,7 @@ public class Game {
     }
     
     /**
-     * Change position to the blank.
+     * Change position to the blank, and increment the nrOfMove.
      * @param idx int, the index of number which change its position to the blank
      */
     public void change(int idx){
@@ -143,6 +160,7 @@ public class Game {
         game.set(idx,9);
         game.set(blankIndex, tmp);
         blankIndex = idx;
+        ++nrOfMove;
     }
     
     /**
@@ -150,5 +168,21 @@ public class Game {
      */
     public void log(){
         System.out.println("Game: " + game);
+    }
+
+    /**
+     * Check if is it possible to move this value. The value is in a String. If is possible than change the game vector too.
+     * @param text the value to check if it can be moved. String value.
+     * @return true if is possible to move, false if is not
+     */
+    public boolean moveIfPossible(String text) {
+        int idxOfCurrentToMove = game.indexOf((int) Integer.parseInt(text));
+        System.out.print(idxOfCurrentToMove);
+        
+        if((idxOfCurrentToMove == blankIndex-1) || (idxOfCurrentToMove == blankIndex+1) || (idxOfCurrentToMove == blankIndex-3) || (idxOfCurrentToMove == blankIndex+3)) {
+            change(idxOfCurrentToMove);
+            return true;
+        }
+        return false;
     }
 }
